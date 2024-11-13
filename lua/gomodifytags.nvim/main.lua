@@ -1,0 +1,1 @@
+local config = require("gomodifytags.nvim.config")
