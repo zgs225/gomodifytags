@@ -2,6 +2,8 @@
 
 `gomodifytags.nvim` is a Neovim plugin designed to simplify the process of managing struct tags in Go (Golang) code. This plugin provides commands to add or remove tags from Go structs quickly and efficiently, enhancing your workflow by integrating directly with Neovim.
 
+![gomodifytags.nvim screenshot](./assets/screenshot.gif)
+
 ### Key Features:
 - **GoAddTags**: Adds custom tags to struct fields in Go files.
 - **GoRemoveTags**: Removes specific tags from struct fields.
