@@ -38,7 +38,7 @@ function M.addTags(cmd)
   end
 
   local file = api.nvim_buf_get_name(0)
-  local struct_name = M.getStructNameUnderCurosr()
+  local struct_name = M.getStructNameUnderCursor()
 
   if struct_name == nil then
     M.errlog("no struct detected")
@@ -91,7 +91,7 @@ function M.removeTags(cmd)
   end
 
   local file = api.nvim_buf_get_name(0)
-  local struct_name = M.getStructNameUnderCurosr()
+  local struct_name = M.getStructNameUnderCursor()
 
   if struct_name == nil then
     M.errlog("no struct detected")
@@ -171,7 +171,7 @@ function M.jobstart(job_cmds)
 end
 
 ---@return string|nil
-function M.getStructNameUnderCurosr()
+function M.getStructNameUnderCursor()
   local node = ts_utils.get_node_at_cursor(0)
 
   if not node then
