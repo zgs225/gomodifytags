@@ -110,6 +110,28 @@ function M.removeTags(cmd)
   M.jobstart(job_cmds)
 end
 
+function M.installGoModifyTagsBin()
+  local job_cmds = { "go", "install", "github.com/fatih/gomodifytags@latest" }
+  M.log("running " .. fn.join(job_cmds, " "))
+
+  local job_stderr = ""
+
+  fn.jobstart(job_cmds, {
+    on_stderr = function(_, data)
+      if data then
+        job_stderr = table.concat(data, "\n")
+      end
+    end,
+    on_exit = function(_, exit_code)
+      if exit_code ~= 0 then
+        M.errlog(job_stderr)
+      else
+        M.log("gomodifytags installed.")
+      end
+    end
+  })
+end
+
 function M.jobstart(job_cmds)
   -- M.log(fn.join(job_cmds, " "))
 

@@ -13,7 +13,7 @@ function M.setup(opts)
   vim.api.nvim_create_user_command("GoAddTags", main.addTags,
     {
       desc =
-      "GoAddTags Adds tags for the whitespace separated list of keys",
+      "GoAddTags Adds custom tags to struct fields in Go files.",
       nargs =
       "*"
     })
@@ -21,9 +21,15 @@ function M.setup(opts)
   vim.api.nvim_create_user_command("GoRemoveTags", main.removeTags,
     {
       desc =
-      "GoRemoveTags Removes tags for the whitespace separated list of keys",
+      "GoRemoveTags Removes specific tags from struct fields.",
       nargs =
       "*"
+    })
+
+  vim.api.nvim_create_user_command("GoInstallModifyTagsBin", main.installGoModifyTagsBin,
+    {
+      desc =
+      "GoInstallModifyTagsBin Installs the gomodifytags binary, a tool required for modifying struct tags in Go.",
     })
 end
 
