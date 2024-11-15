@@ -8,10 +8,27 @@ local M = {}
 ---Add tags to the struct at current cursor
 ---@param cmd table
 function M.addTags(cmd)
-  local tags = cmd.args
+  local args = cmd.fargs
+  local tags = {}
+  local tag_options = {}
 
-  if tags == "" then
-    tags = "json"
+  if not args or #args == 0 then
+    args = { "json" }
+  end
+
+  for _, arg in ipairs(args) do
+    local opts = fn.split(arg, ",", true)
+    local tag = ""
+    local first_opt = true
+    for _, opt in ipairs(opts) do
+      if first_opt then
+        tag = opt
+        table.insert(tags, tag)
+        first_opt = false
+      else
+        table.insert(tag_options, tag .. "=" .. opt)
+      end
+    end
   end
 
   local file_type = vim.bo.filetype
@@ -31,8 +48,18 @@ function M.addTags(cmd)
 
   local job_stderr = ""
 
+  local job_cmds = { "gomodifytags", "-file", file, "-struct", struct_name, "-format", "json", }
+
+  table.insert(job_cmds, "-add-tags")
+  table.insert(job_cmds, fn.join(tags, ","))
+
+  if #tag_options > 0 then
+    table.insert(job_cmds, "-add-options")
+    table.insert(job_cmds, fn.join(tag_options, ","))
+  end
+
   fn.jobstart(
-    { "gomodifytags", "-file", file, "-struct", struct_name, "-add-tags", tags, "-format", "json", },
+    job_cmds,
     {
       stdout_buffered = true,
       on_stdout = function(_, data)
