@@ -13,7 +13,15 @@ function M.setup(opts)
   vim.api.nvim_create_user_command("GoAddTags", main.addTags,
     {
       desc =
-      "GoAddTags Adds tags for the whitespace separated list of keys.options can contain a static value, i,e: json,omitempty",
+      "GoAddTags Adds tags for the whitespace separated list of keys",
+      nargs =
+      "*"
+    })
+
+  vim.api.nvim_create_user_command("GoRemoveTags", main.removeTags,
+    {
+      desc =
+      "GoRemoveTags Removes tags for the whitespace separated list of keys",
       nargs =
       "*"
     })

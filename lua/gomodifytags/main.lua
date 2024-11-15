@@ -72,7 +72,48 @@ function M.addTags(cmd)
   table.insert(job_cmds, "-transform")
   table.insert(job_cmds, config.o.transform)
 
+  M.jobstart(job_cmds)
+end
+
+function M.removeTags(cmd)
+  local tags = cmd.fargs
+  local clear_all = false
+
+  if not tags or #tags == 0 then
+    clear_all = true
+  end
+
+  local file_type = vim.bo.filetype
+
+  if file_type ~= "go" then
+    M.errlog("this function can only be called in a Go file")
+    return
+  end
+
+  local file = api.nvim_buf_get_name(0)
+  local struct_name = M.getStructNameUnderCurosr()
+
+  if struct_name == nil then
+    M.errlog("no struct detected")
+    return
+  end
+
+  local job_cmds = { "gomodifytags", "-file", file, "-struct", struct_name, "-format", "json", }
+
+  if clear_all then
+    table.insert(job_cmds, "-clear-tags")
+  else
+    table.insert(job_cmds, "-remove-tags")
+    table.insert(job_cmds, fn.join(tags, ","))
+  end
+
+  M.jobstart(job_cmds)
+end
+
+function M.jobstart(job_cmds)
   -- M.log(fn.join(job_cmds, " "))
+
+  local job_stderr = ""
 
   fn.jobstart(
     job_cmds,
