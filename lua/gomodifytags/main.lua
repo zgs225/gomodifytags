@@ -1,7 +1,6 @@
 local api, fn = vim.api, vim.fn
-
-local config = require("gomodifytags.config")
 local ts_utils = require 'nvim-treesitter.ts_utils'
+local config = require("gomodifytags.config")
 
 local M = {}
 
@@ -57,6 +56,23 @@ function M.addTags(cmd)
     table.insert(job_cmds, "-add-options")
     table.insert(job_cmds, fn.join(tag_options, ","))
   end
+
+  if config.o.skip_unexported then
+    table.insert(job_cmds, "-skip-unexported")
+  end
+
+  if config.o.override then
+    table.insert(job_cmds, "-override")
+  end
+
+  if config.o.sort then
+    table.insert(job_cmds, "-sort")
+  end
+
+  table.insert(job_cmds, "-transform")
+  table.insert(job_cmds, config.o.transform)
+
+  -- M.log(fn.join(job_cmds, " "))
 
   fn.jobstart(
     job_cmds,

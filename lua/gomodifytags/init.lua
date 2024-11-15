@@ -6,11 +6,14 @@ local config = require("gomodifytags.config")
 
 local M = {}
 
-function M.setup()
+---@param opts gomodifytags.opts
+function M.setup(opts)
+  config.apply(opts)
+
   vim.api.nvim_create_user_command("GoAddTags", main.addTags,
     {
       desc =
-      "GoAddTags Adds tags for the comma separated list of keys.options can contain a static value, i,e: json,omitempty",
+      "GoAddTags Adds tags for the whitespace separated list of keys.options can contain a static value, i,e: json,omitempty",
       nargs =
       "*"
     })
