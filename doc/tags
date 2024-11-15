@@ -1,0 +1,9 @@
+gomodifytags-contents	gomodifytags.txt	/*gomodifytags-contents*/
+gomodifytags-intro	gomodifytags.txt	/*gomodifytags-intro*/
+gomodifytags-install	gomodifytags.txt	/*gomodifytags-install*/
+gomodifytags-config	gomodifytags.txt	/*gomodifytags-config*/
+gomodifytags-commands	gomodifytags.txt	/*gomodifytags-commands*/
+gomodifytags-goaddtags	gomodifytags.txt	/*gomodifytags-goaddtags*/
+gomodifytags-goremovetags	gomodifytags.txt	/*gomodifytags-goremovetags*/
+gomodifytags-goinstallmodtagsbin	gomodifytags.txt	/*gomodifytags-goinstallmodtagsbin*/
+gomodifytags.txt	gomodifytags.txt	/*gomodifytags.txt*/

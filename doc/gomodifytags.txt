@@ -1,0 +1,110 @@
+*gomodifytags.txt*  Plugin to manage Go struct tags        Last Change: 2024-11-15
+
+==============================================================================
+CONTENTS                                            *gomodifytags-contents*
+
+    1. Introduction ................................ |gomodifytags-intro|
+    2. Installation ................................ |gomodifytags-install|
+    3. Configuration .............................. |gomodifytags-config|
+    4. Commands ................................... |gomodifytags-commands|
+        - GoAddTags ............................... |gomodifytags-goaddtags|
+        - GoRemoveTags ............................ |gomodifytags-goremovetags|
+        - GoInstallModifyTagsBin .................. |gomodifytags-goinstallmodtagsbin|
+
+==============================================================================
+1. Introduction                                    *gomodifytags-intro*
+
+`gomodifytags.nvim` is a Neovim plugin designed for Go developers to manage struct tags
+efficiently. It provides commands to add or remove tags from Go struct fields and integrates 
+directly with the Neovim editor for a smooth workflow.
+
+==============================================================================
+2. Installation                                    *gomodifytags-install*
+
+To install `gomodifytags.nvim` using the Lazy plugin manager, add the following to your
+Neovim configuration:
+
+    {
+      "zgs225/gomodifytags.nvim",
+      cmd = { "GoAddTags", "GoRemoveTags", "GoInstallModifyTagsBin" },
+      config = function()
+        require("gomodifytags").setup() -- Optional: You can add any specific configuration here if needed.
+      end,
+    }
+
+After installation, use the following command to install the `gomodifytags` binary:
+
+    :GoInstallModifyTagsBin
+
+==============================================================================
+3. Configuration                                   *gomodifytags-config*
+
+The plugin provides several customizable options that can be adjusted in your Neovim setup.
+Below are the default values:
+
+    require("gomodifytags").setup({
+      override = false,        -- Whether to override existing tags
+      skip_unexported = false, -- Skip unexported fields (lowercase fields)
+      sort = false,            -- Sort tags by key name
+      transform = "snakecase", -- How to transform field names
+    })
+
+### Available configuration options:
+
+- *override*: Whether to override existing tags when adding new ones. Default: `false`.
+- *skip_unexported*: Skip unexported fields (fields starting with a lowercase letter). Default: `false`.
+- *sort*: Whether to sort tags alphabetically by key name. Default: `false`.
+- *transform*: Determines how field names are transformed when adding tags. 
+  Available options: `"snakecase"`, `"camelcase"`, `"lispcase"`, `"pascalcase"`, `"titlecase"`, `"keep"`.
+  Default: `"snakecase"`.
+
+==============================================================================
+4. Commands                                        *gomodifytags-commands*
+
+This plugin provides the following commands for managing Go struct tags.
+
+------------------------------------------------------------------------------
+GoAddTags                                          *gomodifytags-goaddtags*
+
+    :GoAddTags [tags]
+
+Adds tags to Go struct fields. If no tags are specified, `json` is added by default.
+Tags and options are space-separated, and tag options can be added using commas.
+
+Examples:
+    :GoAddTags
+        Adds the `json` tag (default behavior).
+
+    :GoAddTags json,omitempty xml
+        Adds `json` with the `omitempty` option and `xml` without options.
+
+    :GoAddTags json xml yaml
+        Adds `json`, `xml`, and `yaml` tags to struct fields.
+
+------------------------------------------------------------------------------
+GoRemoveTags                                       *gomodifytags-goremovetags*
+
+    :GoRemoveTags [tags]
+
+Removes specified tags from struct fields. If no tags are specified, all tags are removed.
+
+Examples:
+    :GoRemoveTags
+        Removes all tags from struct fields.
+
+    :GoRemoveTags json xml
+        Removes the `json` and `xml` tags, leaving other tags intact.
+
+------------------------------------------------------------------------------
+GoInstallModifyTagsBin                             *gomodifytags-goinstallmodtagsbin*
+
+    :GoInstallModifyTagsBin
+
+Installs the required `gomodifytags` binary. This is necessary for the plugin to work properly.
+
+Examples:
+    :GoInstallModifyTagsBin
+        Installs the `gomodifytags` tool.
+
+==============================================================================
+ vim:tw=78:ts=8:ft=help:norl:
