@@ -45,8 +45,6 @@ function M.addTags(cmd)
     return
   end
 
-  local job_stderr = ""
-
   local job_cmds = { "gomodifytags", "-file", file, "-struct", struct_name, "-format", "json", }
 
   table.insert(job_cmds, "-add-tags")
