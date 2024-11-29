@@ -10,12 +10,33 @@ function M.addTags(cmd)
   local args = cmd.fargs
   local tags = {}
   local tag_options = {}
+  local template = nil
 
   if not args or #args == 0 then
     args = { "json" }
   end
 
   for _, arg in ipairs(args) do
+    -- Try resolve template, for example gorm=column:{field_name}
+    local parts = fn.split(arg, "=")
+
+    if #parts >= 2 then
+      -- Only one template option is allowed.
+      if template ~= nil then
+        M.errlog("Only one template option is allowed.")
+        return
+      end
+
+      if parts[0] ~= nil then
+        arg = table.remove(parts, 0)
+      else
+        arg = table.remove(parts, 1)
+      end
+
+      template = fn.join(parts, "=")
+    end
+
+    -- Resolve tags and options, for example json,omitempty
     local opts = fn.split(arg, ",", true)
     local tag = ""
     local first_opt = true
@@ -53,6 +74,11 @@ function M.addTags(cmd)
   if #tag_options > 0 then
     table.insert(job_cmds, "-add-options")
     table.insert(job_cmds, fn.join(tag_options, ","))
+  end
+
+  if template ~= nil then
+    table.insert(job_cmds, "-template")
+    table.insert(job_cmds, template)
   end
 
   if config.o.skip_unexported then
