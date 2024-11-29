@@ -73,6 +73,7 @@ GoAddTags                                          *gomodifytags-goaddtags*
 
 Adds tags to Go struct fields. If no tags are specified, `json` is added by default.
 Tags and options are space-separated, and tag options can be added using commas.
+Additionally, the command now supports a template option for advanced tag customization.
 
 Examples:
     :GoAddTags
@@ -83,6 +84,9 @@ Examples:
 
     :GoAddTags json xml yaml
         Adds `json`, `xml`, and `yaml` tags to struct fields.
+
+    :GoAddTags gorm=column:{field}
+        Add a gorm tag with a column option, where `{field}` is replaced by the corresponding field name.
 
 ------------------------------------------------------------------------------
 GoRemoveTags                                       *gomodifytags-goremovetags*

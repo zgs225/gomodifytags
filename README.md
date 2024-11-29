@@ -76,7 +76,7 @@ require("gomodifytags").setup({
 
 ### 1. `:GoAddTags`
 
-The `:GoAddTags` command allows you to add tags to Go struct fields. You can specify multiple tags, with each tag and its options separated by spaces. Options for each tag can be added using a comma.
+The `:GoAddTags` command allows you to add tags to Go struct fields. You can specify multiple tags, with each tag and its options separated by spaces. Options for each tag can be added using a comma. Additionally, the command now supports a template option for advanced tag customization.
 
 - **Syntax:**
   ```bash
@@ -86,6 +86,7 @@ The `:GoAddTags` command allows you to add tags to Go struct fields. You can spe
   - If no tags are provided, the command will add the `json` tag by default.
   - To add multiple tags, separate them with spaces.
   - To add options for a tag, append them after the tag name, separated by a comma.
+  - To use the template option, specify a tag with a format like `tag=template:{field}`, where `{field}` corresponds to the relevant field name. This option can only appear once per command.
 
 - **Examples:**
 
@@ -106,6 +107,13 @@ The `:GoAddTags` command allows you to add tags to Go struct fields. You can spe
      :GoAddTags json xml yaml
      ```
      This will add `json`, `xml`, and `yaml` tags to each field in the struct.
+
+  4. **Add a tag with the template option:**
+      ```bash
+      :GoAddTags gorm=column:{field}
+      ```
+      This will add a gorm tag with a column option, where `{field}` is replaced by the corresponding field name. The template option can only appear once per command.
+
 
 ### 2. `:GoRemoveTags`
 
